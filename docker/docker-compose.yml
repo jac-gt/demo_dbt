@@ -1,0 +1,10 @@
+  version: "3.9"
+  services:
+    dbt-dev:
+      image: "dbt-image"
+      volumes:
+        - ./../dist:/usr/app
+      ports:
+        - 25:22
+#      command: tail -f /dev/null
+#    command: spark-submit --master local[8] --py-files jobs.zip --files config.json main.py

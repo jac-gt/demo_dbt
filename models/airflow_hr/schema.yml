@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: airflow_hr
+    database: airflow
+    schema: hr
+    tables:
+      - name: dept
+      - name: emp
+        description: >
+          Employee table
+        columns:
+          - name: first_name
+          - name: last_name
+          - name: address
+          - name: dob
+          - name: sal
+          - name: dept
+            tests:
+              - relationships:
+                 to: ref('airflow_hr__dept')
+                 field: deptno
