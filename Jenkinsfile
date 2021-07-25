@@ -30,8 +30,8 @@ pipeline {
                 script {
 //                     withCredentials([sshUserPrivateKey(credentialsId: "dbt_connection", usernameVariable: 'USERNAME')]) {
                         sh '''
-                            if ! grep -q "^airflow_dbt-dev_1" ~/.ssh/known_hosts; then
-                              ssh-keyscan -t rsa github.com >> /var/lib/jenkins/.ssh/known_hosts
+                            if ! grep -q "^${targetServer}" ~/.ssh/known_hosts; then
+                              ssh-keyscan -t rsa ${targetServer}>> ~/.ssh/known_hosts
                             fi
 
                             ssh ${userName}@${targetServer}  "if [ -d '${targetDir}' ]; then rm -Rf ${targetDir}; fi; mkdir ${targetDir}" &&
