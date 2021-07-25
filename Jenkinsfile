@@ -35,7 +35,7 @@ pipeline {
                             fi
 
                             ssh ${userName}@${targetServer}  "if [ -d '${targetDir}' ]; then rm -Rf ${targetDir}; fi; mkdir ${targetDir}" &&
-                            scp ${WORKSPACE}/dbt_demo/ dbt_user@airflow_dbt-dev_1:${targetDir}
+                            scp -r ${WORKSPACE}/* dbt_user@airflow_dbt-dev_1:${targetDir}
                         '''
 //                     }
                 }
