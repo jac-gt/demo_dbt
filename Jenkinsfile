@@ -5,6 +5,7 @@ pipeline {
         choice(choices: ['Minor', 'Major'], description: 'Major= increment by 1.0.0\nMinor=increment by 0.1.0', name:'releaseVersion' )
         string(defaultValue: 'dbt_user', description: 'User name target server', name: 'userName')
         string(defaultValue: 'dbt_server', description: 'Target DBT server', name: 'targetServer')
+        string(defaultValue: '/usr/app/', description: 'Target directory', name: 'targetDir')
     }
 
     stages {
@@ -16,14 +17,11 @@ pipeline {
                 """
             }
         }
-        stage("build"){
+        stage('Check-out repository'){
             steps {
-                echo "building the pipeline"
-            }
-        }
-        stage("test") {
-            steps {
-                echo "testing the pipeline"
+                checkout scm
+
+                sh 'printenv'
             }
         }
         stage("deploy") {
@@ -36,9 +34,8 @@ pipeline {
                               ssh-keyscan -t rsa github.com >> /var/lib/jenkins/.ssh/known_hosts
                             fi
 
-                            ssh ${userName}@${targetServer}
-
-                            ls
+                            ssh ${userName}@${targetServer}  "if [ -d '${targetDir}' ]; then rm -Rf ${targetDir}; fi; mkdir ${targetDir}" &&
+                            scp * dbt_user@airflow_dbt-dev_1:${targetDir}
                         '''
 //                     }
                 }
