@@ -36,7 +36,7 @@ pipeline {
                               ssh-keyscan -t rsa github.com >> /var/lib/jenkins/.ssh/known_hosts
                             fi
 
-                            ssh ${userName}@{targetServer}
+                            ssh ${userName}@${targetServer}
 
                             ls
                         '''
